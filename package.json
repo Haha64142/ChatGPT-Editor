@@ -1,8 +1,27 @@
 {
+  "name": "chatgpt-editor",
+  "version": "1.0.0",
+  "description": "Talk with ChatGPT and edit its responses",
+  "homepage": "https://github.com/Haha64142/ChatGPT-Editor#readme",
+  "bugs": {
+    "url": "https://github.com/Haha64142/ChatGPT-Editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haha64142/ChatGPT-Editor.git"
+  },
+  "license": "ISC",
+  "author": "Haha64142",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "openai": "^6.7.0"
   },
-  "type": "module"
+  "devDependencies": {}
 }
