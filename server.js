@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { getResponse } from "./ai.js";
-import { get } from "http";
 
 const app = express();
 const port = 3000;

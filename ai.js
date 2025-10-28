@@ -2,6 +2,14 @@ import dotenv from "dotenv";
 dotenv.config();
 import OpenAI from "openai";
 
+// Initialize the OpenAI client
+const client = new OpenAI({
+  baseURL: "https://models.github.ai/inference",
+  apiKey: process.env.GITHUB_TOKEN,
+});
+
+console.log("OpenAI client initialized");
+
 /**
  *
  * @param {*} data A list of JSON objects containing the user message
@@ -13,14 +21,6 @@ import OpenAI from "openai";
  * ]'
  */
 export async function getResponse(data) {
-  // Initialize the OpenAI client
-  const client = new OpenAI({
-    baseURL: "https://models.github.ai/inference",
-    apiKey: process.env.GITHUB_TOKEN,
-  });
-
-  console.log("OpenAI client initialized");
-
   // Prepare the input for the chat completion
   let input = {
     messages: data,
