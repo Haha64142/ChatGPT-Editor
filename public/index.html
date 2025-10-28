@@ -11,7 +11,19 @@
 [{ "role": "user", "content": "What is the capital of France?" }] </textarea
         >
       </div>
-      <button id="submitBtn">Submit</button>
+
+      <div class="buttons">
+        <button id="submitBtn">Submit</button>
+        <button id="exportBtn">Export as json</button>
+        <button id="clearBtn">Clear</button>
+
+        <br />
+
+        <input type="checkbox" id="selfResponseChk" name="selfResponseChk" />
+        <label for="selfResponseChk" style="user-select: none"
+          >Let the AI talk to itself</label
+        >
+      </div>
     </div>
   </body>
 
