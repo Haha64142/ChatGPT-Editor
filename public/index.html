@@ -2,27 +2,29 @@
 <html>
   <head>
     <title>ChatGPT Test</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <div class="app">
       <div class="thread">
         <textarea id="chatText">
-[{ "role": "user", "content": "What is the capital of France?" }] </textarea
+[{ "role": "user", "content": "What is the capital of France?" }]</textarea
         >
       </div>
 
       <div class="buttons">
-        <button id="submitBtn">Submit</button>
-        <button id="exportBtn">Export as json</button>
-        <button id="clearBtn">Clear</button>
-
-        <br />
-
-        <input type="checkbox" id="selfResponseChk" name="selfResponseChk" />
-        <label for="selfResponseChk" style="user-select: none"
-          >Let the AI talk to itself</label
-        >
+        <div>
+          <button id="submitBtn">Submit</button>
+          <button id="exportBtn">Export as json</button>
+          <button id="clearBtn">Clear</button>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="selfResponseChk" name="selfResponseChk" />
+          <label for="selfResponseChk" style="user-select: none"
+            >Let the AI talk to itself</label
+          >
+        </div>
       </div>
     </div>
   </body>

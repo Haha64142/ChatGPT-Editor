@@ -1,0 +1,81 @@
+html, body {
+    background-color: #212121;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 7px;
+    padding: 0;
+    height: 100%;
+    min-width: 80%;
+}
+
+.thread {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 7px;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+textarea {
+    background-color: #303030;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    resize: horizontal;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    margin: 7px;
+    margin-top: 3px;
+    padding: 0;
+    width: 100%;
+}
+
+.buttons * {
+    font-size: 1.5rem;
+}
+
+button, .checkbox-group {
+    background-color: #303030;
+    color: #ffffff;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+
+.checkbox-group {
+    background-color: #212121;
+}
+
+button:hover, .checkbox-group:hover {
+    background-color: #454545;
+    cursor: pointer;
+}
+
+button:active, .checkbox-group:active {
+    background-color: #3b3b3b;
+}
