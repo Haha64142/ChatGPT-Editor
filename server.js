@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { getResponse } from "./ai.js";
 
 const app = express();
-const port = 80;
+const port = process.env.PORT || 80;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,18 +23,25 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  console.log("\nPress Enter to stop the server");
+
+  // Only do this when running locally
+  if (!process.env.RENDER) {
+    console.log("\nPress Enter to stop the server");
+    waitForInput();
+  }
 });
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-rl.on("line", () => {
-  console.log("Stopping server...");
-  server.close(() => {
-    console.log("Server stopped");
-    process.exit(0);
+function waitForInput() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
   });
-});
+
+  rl.on("line", () => {
+    console.log("Stopping server...");
+    server.close(() => {
+      console.log("Server stopped");
+      process.exit(0);
+    });
+  });
+}
