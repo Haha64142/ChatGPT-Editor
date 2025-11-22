@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ChatGPT Test</title>
+    <title>ChatGPT Editor</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <div class="app">
       <div class="thread">
-        <textarea id="chatText">
-[{ "role": "user", "content": "What is the capital of France?" }]</textarea
-        >
+        <div id="messages"></div>
+
+        <div class="input-row">
+          <form id="inputForm">
+            <input
+              id="inputText"
+              autocomplete="off"
+              placeholder="Type a message..."
+            />
+            <button id="sendBtn" type="submit">Send</button>
+          </form>
+        </div>
       </div>
 
       <div class="buttons">
         <div>
-          <button id="submitBtn">Submit</button>
+          <button id="submitBtn">Submit without data</button>
           <button id="exportBtn">Export as json</button>
           <button id="clearBtn">Clear</button>
         </div>

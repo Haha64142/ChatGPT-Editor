@@ -1,47 +1,104 @@
 const submitBtn = document.getElementById("submitBtn");
+const inputForm = document.getElementById("inputForm");
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
 const selfResponseChk = document.getElementById("selfResponseChk");
-const chatText = document.getElementById("chatText");
+const messages = document.getElementById("messages");
+const inputText = document.getElementById("inputText");
 
 var selfResponse = false;
+var messageArray = [];
 
+inputForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  addMessage(inputText.value, "user");
+  inputText.value = "";
+
+  fetchResponse();
+});
 submitBtn.addEventListener("click", fetchResponse);
 exportBtn.addEventListener("click", downloadChat);
-clearBtn.addEventListener("click", () => {
-  chatText.value = "";
-});
+clearBtn.addEventListener("click", clearMessages);
 selfResponseChk.addEventListener("change", (event) => {
   selfResponse = event.target.checked;
 });
 
 async function fetchResponse() {
-  console.log("Submitting data to /api/data:", chatText.value);
+  console.log("Submitting data to /api/data:", messageArray);
   const response = await fetch("/api/data", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: chatText.value,
+    body: JSON.stringify(messageArray),
   });
-  let data = await response.json();
 
-  if (selfResponse) {
-    // Swap roles to have the AI talk to itself
-    for (let i = 0; i < data.length; ++i) {
-      if (data[i].role === "user") {
-        data[i].role = "assistant";
-      } else if (data[i].role === "assistant") {
-        data[i].role = "user";
-      }
-    }
+  if (!response.ok) {
+    let data = await response.text();
+    addErrorMessage(data, "assistant");
+    return;
   }
 
-  chatText.value = JSON.stringify(data);
+  let data = await response.json();
+  addMessage(data.content, "assistant");
+
+  if (selfResponse) {
+    let messageArrayTmp = messageArray;
+    clearMessages();
+
+    // Swap roles to have the AI talk to itself
+    for (let i = 0; i < messageArrayTmp.length; ++i) {
+      if (messageArrayTmp[i].role === "user") {
+        messageArrayTmp[i].role = "assistant";
+      } else if (messageArrayTmp[i].role === "assistant") {
+        messageArrayTmp[i].role = "user";
+      }
+
+      addMessage(messageArrayTmp[i].content, messageArrayTmp[i].role);
+    }
+  }
+}
+
+function addMessage(content, role) {
+  const div = document.createElement("div");
+  div.className = "message " + role;
+  div.textContent = content;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+
+  messageArray.push({ role: role, content: content });
+}
+
+function addErrorMessage(content, role) {
+  const div = document.createElement("div");
+  div.className = "message " + role + " error";
+  div.style.width = "70%";
+
+  const iframe = document.createElement("iframe");
+  iframe.srcdoc = content;
+  iframe.style.width = "100%";
+  iframe.style.height = "175px";
+  iframe.style.border = "none";
+
+  div.appendChild(iframe);
+
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+
+  messageArray.push({ role: role, content: content });
+}
+
+function clearMessages() {
+  for (; messages.childElementCount > 0; ) {
+    messages.removeChild(messages.children[0]);
+  }
+
+  messageArray = [];
 }
 
 function downloadChat() {
-  const dataStr = chatText.value;
+  const dataStr = JSON.stringify(messageArray, null, 2) + "\n";
   const blob = new Blob([dataStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 

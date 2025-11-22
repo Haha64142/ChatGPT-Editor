@@ -35,6 +35,5 @@ export async function getResponse(data) {
     role: response.role,
     content: response.content,
   };
-  let output = [...data, responseFormatted];
-  return output;
+  return responseFormatted;
 }
