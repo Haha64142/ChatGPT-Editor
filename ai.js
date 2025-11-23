@@ -20,20 +20,29 @@ console.log("OpenAI client initialized");
  * { "role": "assistant", "content": "The capital of France is Paris." }
  * ]'
  */
-export async function getResponse(data) {
-  // Prepare the input for the chat completion
-  let input = {
-    messages: data,
-    model: "openai/gpt-4o-mini",
-  };
+export function getResponse(data) {
+  return new Promise(async (resolve, reject) => {
+    // Prepare the input for the chat completion
+    const input = {
+      messages: data,
+      model: "openai/gpt-4o-mini",
+    };
 
-  // Get the response from the AI model
-  const response = (await client.chat.completions.create(input)).choices[0]
-    .message;
-  console.log("AI response received:", response);
-  let responseFormatted = {
-    role: response.role,
-    content: response.content,
-  };
-  return responseFormatted;
+    try {
+      // Get the response from the AI model
+      const response = await client.chat.completions.create(input);
+      const message = response.choices[0].message;
+
+      // Format the response
+      let responseFormatted = {
+        role: message.role,
+        content: message.content,
+      };
+      return resolve(responseFormatted);
+    } catch (err) {
+      console.log(err.message);
+      console.log(err.stack);
+      return reject(err.stack);
+    }
+  });
 }

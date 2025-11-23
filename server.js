@@ -16,6 +16,7 @@ app.post("/api/data", async (req, res) => {
   const data = req.body;
   console.log("Received data:", data);
   const response = await getResponse(data);
+  console.log(response);
   res.json(response);
 });
 
