@@ -1,6 +1,6 @@
 html, body {
     background-color: #212121;
-    color: #ffffff;
+    color: #fff;
     font-family: Arial, sans-serif;
     font-size: 16px;
     display: flex;
@@ -62,11 +62,12 @@ html, body {
 
 .message.assistant {
   align-self: flex-start;
-  background-color: #444444;
+  background-color: #444;
 }
 
 .message.error {
-    background-color: #aa3333;
+    background-color: #a33;
+    color: #000;
     font-family: monospace;
     white-space: pre-wrap;
     overflow-x: auto;
@@ -108,7 +109,7 @@ input {
 
 button, .checkbox-group {
     background-color: #303030;
-    color: #ffffff;
+    color: #fff;
     border: none;
     padding: 3px 10px;
     border-radius: 5px;

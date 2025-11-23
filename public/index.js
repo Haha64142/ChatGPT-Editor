@@ -71,22 +71,22 @@ function addMessage(content, role) {
 }
 
 function addErrorMessage(content, role) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+
+  const pre = doc.querySelector("pre");
+
   const div = document.createElement("div");
   div.className = "message " + role + " error";
-  div.style.width = "70%";
 
-  const iframe = document.createElement("iframe");
-  iframe.srcdoc = content;
-  iframe.style.width = "100%";
-  iframe.style.height = "175px";
-  iframe.style.border = "none";
-
-  div.appendChild(iframe);
+  if (pre) {
+    div.appendChild(pre.cloneNode(true));
+  } else {
+    div.textContent = "Server Error";
+  }
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
-
-  messageArray.push({ role: role, content: content });
 }
 
 function clearMessages() {
