@@ -6,8 +6,9 @@ const selfResponseChk = document.getElementById("selfResponseChk");
 const messages = document.getElementById("messages");
 const inputText = document.getElementById("inputText");
 
-var selfResponse = false;
-var messageArray = [];
+let selfResponse = false;
+let messageArray = [];
+let workingIndex = 0;
 
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -63,11 +64,29 @@ async function fetchResponse() {
 function addMessage(content, role) {
   const div = document.createElement("div");
   div.className = "message " + role;
-  div.textContent = content;
+
+  const index = workingIndex++;
+  div.dataset.index = index;
+
+  const span = document.createElement("span");
+  span.className = "message-content";
+  span.textContent = content;
+  div.appendChild(span);
+
+  const buttons = document.createElement("div");
+  buttons.className = "message-buttons";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy";
+  copyBtn.onclick = () => navigator.clipboard.writeText(content);
+
+  buttons.appendChild(copyBtn);
+  div.appendChild(buttons);
+
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  messageArray.push({ role: role, content: content });
+  messageArray.push({ role: role, content: content, index: index });
 }
 
 function addErrorMessage(content, role) {
@@ -95,6 +114,7 @@ function clearMessages() {
   }
 
   messageArray = [];
+  workingIndex = 0;
 }
 
 function downloadChat() {

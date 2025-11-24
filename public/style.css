@@ -1,76 +1,102 @@
-html, body {
-    background-color: #212121;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
+html,
+body {
+  background-color: #212121;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .app {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 7px;
-    padding: 0;
-    height: 100%;
-    width: 90%;
-    min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 7px;
+  padding: 0;
+  height: 100%;
+  width: 90%;
+  min-height: 0;
 }
 
 .thread {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-top: 7px;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 7px;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
 }
 
 #messages {
-    flex: 1;
-    overflow-y: auto;
-    background-color: #181818;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border-radius: 6px;
+  flex: 1;
+  overflow-y: auto;
+  background-color: #181818;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 6px;
 }
 
 /* Chat bubbles */
 .message {
   max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message-content {
   padding: 10px 14px;
   border-radius: 10px;
   font-size: 1rem;
+  white-space: pre-wrap;
 }
 
 .message.user {
   align-self: flex-end;
-  background-color: #3b76f6;
 }
 
 .message.assistant {
   align-self: flex-start;
+}
+
+.message.user .message-content {
+  background-color: #3b76f6;
+}
+
+.message.assistant .message-content {
   background-color: #444;
 }
 
-.message.error {
-    background-color: #a33;
-    color: #000;
-    font-family: monospace;
-    white-space: pre-wrap;
-    overflow-x: auto;
+.message.error .message-content {
+  background-color: #a33;
+  color: #000;
+  font-family: monospace;
+  overflow-x: auto;
+}
+
+.message-buttons {
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.message:hover .message-buttons {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .input-row form {
@@ -78,7 +104,7 @@ html, body {
   gap: 7px;
 }
 
-input {
+.input-row input {
   flex: 1;
   background-color: #303030;
   border: none;
@@ -89,41 +115,44 @@ input {
 }
 
 .input-row button {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 7px;
-    margin: 7px;
-    padding: 0;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 7px;
+  margin: 7px;
+  padding: 0;
+  width: 100%;
 }
 
 .buttons * {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
-button, .checkbox-group {
-    background-color: #303030;
-    color: #fff;
-    border: none;
-    padding: 3px 10px;
-    border-radius: 5px;
+button,
+.checkbox-group {
+  background-color: #303030;
+  color: #fff;
+  border: none;
+  padding: 3px 10px;
+  border-radius: 5px;
 }
 
 .checkbox-group {
-    background-color: #212121;
+  background-color: #212121;
 }
 
-button:hover, .checkbox-group:hover {
-    background-color: #454545;
-    cursor: pointer;
+button:hover,
+.checkbox-group:hover {
+  background-color: #454545;
+  cursor: pointer;
 }
 
-button:active, .checkbox-group:active {
-    background-color: #3b3b3b;
+button:active,
+.checkbox-group:active {
+  background-color: #3b3b3b;
 }
