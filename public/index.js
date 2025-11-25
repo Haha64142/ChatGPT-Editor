@@ -72,13 +72,19 @@ selfResponseChk.addEventListener("change", (event) => {
 
 async function fetchResponse() {
   console.log("Submitting data to /api/data:", messageArray);
-  const response = await fetch("/api/data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(messageArray),
-  });
+  let response;
+  try {
+    response = await fetch("/api/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageArray),
+    });
+  } catch (err) {
+    console.log(err.stack);
+    alert(err.stack);
+  }
 
   if (!response.ok) {
     let data = await response.text();
