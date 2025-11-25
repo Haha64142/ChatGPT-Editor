@@ -15,10 +15,10 @@ app.use(express.json());
 app.post("/api/data", async (req, res) => {
   const data = req.body;
   console.log("Received data:", data);
-  if (data[0].content == "test") {
-    res.json({ role: "assistant", content: "Hello, here's a sample message" });
-    return;
-  }
+  // if (data[0].content == "test" || data[0].content == "") {
+  //   res.json({ role: "assistant", content: "Hello, here's a sample message" });
+  //   return;
+  // }
   const response = await getResponse(data);
   console.log(response);
   res.json(response);

@@ -57,6 +57,7 @@ body {
 }
 
 .message-content {
+  width: fit-content;
   padding: 10px 14px;
   border-radius: 10px;
   font-size: 1rem;
@@ -65,14 +66,16 @@ body {
 
 .message.user {
   align-self: flex-end;
-}
-
-.message.assistant {
-  align-self: flex-start;
+  align-items: flex-end;
 }
 
 .message.user .message-content {
   background-color: #3b76f6;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  align-items: flex-start;
 }
 
 .message.assistant .message-content {
@@ -88,6 +91,7 @@ body {
 
 .message-buttons {
   display: flex;
+  align-self: flex-end;
   gap: 5px;
   opacity: 0;
   pointer-events: none;

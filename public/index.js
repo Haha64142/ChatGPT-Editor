@@ -103,7 +103,12 @@ function addMessage(content, role) {
   copyBtn.textContent = "Copy";
   copyBtn.onclick = () => navigator.clipboard.writeText(content);
 
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.onclick = () => deleteMessage(index);
+
   buttons.appendChild(copyBtn);
+  buttons.appendChild(deleteBtn);
   div.appendChild(buttons);
 
   messages.appendChild(div);
@@ -129,6 +134,18 @@ function addErrorMessage(content, role) {
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
+}
+
+function deleteMessage(index) {
+  for (let i = 0; i < messageArray.length; ++i) {
+    if (messageArray[i].index == index) {
+      messageArray.splice(i, 1);
+    }
+
+    if (messages.children[i].dataset.index == index) {
+      messages.removeChild(messages.children[i]);
+    }
+  }
 }
 
 function clearMessages() {
