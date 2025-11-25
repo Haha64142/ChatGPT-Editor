@@ -1,4 +1,5 @@
 const submitBtn = document.getElementById("submitBtn");
+const sendBtn = document.getElementById("sendBtn");
 const inputForm = document.getElementById("inputForm");
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
@@ -9,6 +10,28 @@ const inputText = document.getElementById("inputText");
 let selfResponse = false;
 let messageArray = [];
 let workingIndex = 0;
+
+window.onload = function () {
+  try {
+    fetch("/wake")
+      .then((r) => r.text())
+      .then((body) => {
+        if (body == "App is awake") {
+          submitBtn.disabled = false;
+          sendBtn.disabled = false;
+        } else {
+          alert(body);
+        }
+      })
+      .catch((err) => {
+        console.log(err.stack);
+        alert(err.stack);
+      });
+  } catch (err) {
+    console.log(err.stack);
+    alert(err.stack);
+  }
+};
 
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
