@@ -7,8 +7,31 @@ const selfResponseChk = document.getElementById("selfResponseChk");
 const messages = document.getElementById("messages");
 const inputText = document.getElementById("inputText");
 
-var selfResponse = false;
-var messageArray = [];
+let selfResponse = false;
+let messageArray = [];
+let workingIndex = 0;
+
+window.onload = function () {
+  try {
+    fetch("/wake")
+      .then((r) => r.text())
+      .then((body) => {
+        if (body == "App is awake") {
+          submitBtn.disabled = false;
+          sendBtn.disabled = false;
+        } else {
+          alert(body);
+        }
+      })
+      .catch((err) => {
+        console.log(err.stack);
+        alert(err.stack);
+      });
+  } catch (err) {
+    console.log(err.stack);
+    alert(err.stack);
+  }
+};
 
 window.onload = function () {
   try {
@@ -86,11 +109,34 @@ async function fetchResponse() {
 function addMessage(content, role) {
   const div = document.createElement("div");
   div.className = "message " + role;
-  div.textContent = content;
+
+  const index = workingIndex++;
+  div.dataset.index = index;
+
+  const span = document.createElement("span");
+  span.className = "message-content";
+  span.textContent = content;
+  div.appendChild(span);
+
+  const buttons = document.createElement("div");
+  buttons.className = "message-buttons";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy";
+  copyBtn.onclick = () => navigator.clipboard.writeText(content);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.onclick = () => deleteMessage(index);
+
+  buttons.appendChild(copyBtn);
+  buttons.appendChild(deleteBtn);
+  div.appendChild(buttons);
+
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  messageArray.push({ role: role, content: content });
+  messageArray.push({ role: role, content: content, index: index });
 }
 
 function addErrorMessage(content, role) {
@@ -112,12 +158,25 @@ function addErrorMessage(content, role) {
   messages.scrollTop = messages.scrollHeight;
 }
 
+function deleteMessage(index) {
+  for (let i = 0; i < messageArray.length; ++i) {
+    if (messageArray[i].index == index) {
+      messageArray.splice(i, 1);
+    }
+
+    if (messages.children[i].dataset.index == index) {
+      messages.removeChild(messages.children[i]);
+    }
+  }
+}
+
 function clearMessages() {
   for (; messages.childElementCount > 0; ) {
     messages.removeChild(messages.children[0]);
   }
 
   messageArray = [];
+  workingIndex = 0;
 }
 
 function downloadChat() {
