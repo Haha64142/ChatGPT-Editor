@@ -33,28 +33,6 @@ window.onload = function () {
   }
 };
 
-window.onload = function () {
-  try {
-    fetch("/wake")
-      .then((r) => r.text())
-      .then((body) => {
-        if (body == "App is awake") {
-          submitBtn.disabled = false;
-          sendBtn.disabled = false;
-        } else {
-          alert(body);
-        }
-      })
-      .catch((err) => {
-        console.log(err.stack);
-        alert(err.stack);
-      });
-  } catch (err) {
-    console.log(err.stack);
-    alert(err.stack);
-  }
-};
-
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
 

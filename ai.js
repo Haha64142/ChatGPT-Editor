@@ -12,7 +12,7 @@ console.log("OpenAI client initialized");
 
 /**
  *
- * @param {*} data A list of JSON objects containing the user message
+ * @param {String} data A list of JSON objects containing the user message
  * Example: '[{ "role": "user", "content": "What is the capital of France?" }]'
  * @returns The list of JSON objects of the data + AI response
  * Example: '[
