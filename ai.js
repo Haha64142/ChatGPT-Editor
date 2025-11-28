@@ -25,7 +25,7 @@ export function getResponse(data) {
     // Prepare the input for the chat completion
     const input = {
       messages: data,
-      model: "openai/gpt-4o-mini",
+      model: "openai/gpt-4.1-mini",
     };
 
     try {
