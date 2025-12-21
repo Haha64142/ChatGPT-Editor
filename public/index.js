@@ -1,6 +1,8 @@
 const submitBtn = document.getElementById("submitBtn");
 const sendBtn = document.getElementById("sendBtn");
 const inputForm = document.getElementById("inputForm");
+const importBtn = document.getElementById("importBtn");
+const importFile = document.getElementById("importFile");
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
 const selfResponseChk = document.getElementById("selfResponseChk");
@@ -42,6 +44,10 @@ inputForm.addEventListener("submit", (e) => {
   fetchResponse();
 });
 submitBtn.addEventListener("click", fetchResponse);
+importBtn.addEventListener("click", () => {
+  importFile.click();
+});
+importFile.addEventListener("change", importChat);
 exportBtn.addEventListener("click", downloadChat);
 clearBtn.addEventListener("click", clearMessages);
 selfResponseChk.addEventListener("change", (event) => {
@@ -90,12 +96,32 @@ async function fetchResponse() {
   }
 }
 
-function addMessage(content, role) {
+function addMessageJSON(message) {
+  if (!("content" in message && "role" in message)) {
+    alert("content or role key is missing in message:" + message);
+    console.error("content or role key is missing in message:" + message);
+    return;
+  }
+
+  if ("index" in message) {
+    addMessage(message.content, message.role, message.index, false);
+  } else {
+    addMessage(message.content, message.role, undefined, false);
+  }
+}
+
+function addMessage(content, role, index = undefined, addToMessageArray = true) {
   const div = document.createElement("div");
   div.className = "message " + role;
 
-  const index = workingIndex++;
-  div.dataset.index = index;
+  let messageIndex;
+  if (index === undefined) {
+    messageIndex = workingIndex++;
+  } else {
+    messageIndex = index;
+    workingIndex = index + 1;
+  }
+  div.dataset.index = messageIndex;
 
   const span = document.createElement("span");
   span.className = "message-content";
@@ -111,7 +137,7 @@ function addMessage(content, role) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
-  deleteBtn.onclick = () => deleteMessage(index);
+  deleteBtn.onclick = () => deleteMessage(messageIndex);
 
   buttons.appendChild(copyBtn);
   buttons.appendChild(deleteBtn);
@@ -120,7 +146,7 @@ function addMessage(content, role) {
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  messageArray.push({ role: role, content: content, index: index });
+  if (addToMessageArray) messageArray.push({ role: role, content: content, index: messageIndex });
 }
 
 function addErrorMessage(content, role) {
@@ -161,6 +187,20 @@ function clearMessages() {
 
   messageArray = [];
   workingIndex = 0;
+}
+
+function importChat() {
+  new Response(importFile.files[0]).json()
+    .then((messages) => {
+      clearMessages();
+      messageArray = messages;
+      for (let i = 0; i < messageArray.length; ++i) {
+        addMessageJSON(messageArray[i]);
+      }
+    }, (err) => {
+      alert("Invalid file uploaded");
+      console.log("Invalid file uploaded");
+    })
 }
 
 function downloadChat() {

@@ -24,16 +24,20 @@
       </div>
 
       <div class="buttons">
-        <div>
-          <button id="submitBtn" disabled>Submit without data</button>
+        <div class="flex-h">
+          <button id="importBtn">Import as json</button>
+          <input type="file" id="importFile" style="display: none" />
           <button id="exportBtn">Export as json</button>
           <button id="clearBtn">Clear</button>
         </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="selfResponseChk" name="selfResponseChk" />
-          <label for="selfResponseChk" style="user-select: none"
-            >Let the AI talk to itself</label
-          >
+        <div class="flex-h">
+          <button id="submitBtn" disabled>Submit without data</button>
+          <div class="checkbox-group">
+            <input type="checkbox" id="selfResponseChk" name="selfResponseChk" />
+            <label for="selfResponseChk" style="user-select: none"
+              >Let the AI talk to itself</label
+            >
+          </div>
         </div>
       </div>
     </div>
