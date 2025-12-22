@@ -85,6 +85,7 @@ body {
 .message.error .message-content {
   background-color: #a33;
   color: #000;
+  max-width: 100%;
   font-family: monospace;
   overflow-x: auto;
 }

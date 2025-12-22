@@ -158,11 +158,31 @@ function addErrorMessage(content, role) {
   const div = document.createElement("div");
   div.className = "message " + role + " error";
 
+  const messageContent = document.createElement("div");
+  messageContent.className = "message-content";
+
   if (pre) {
-    div.appendChild(pre.cloneNode(true));
+    messageContent.appendChild(pre.cloneNode(true));
   } else {
-    div.textContent = "Server Error";
+    messageContent.textContent = "Server Error: " + content;
   }
+
+  div.appendChild(messageContent);
+
+  const buttons = document.createElement("div");
+  buttons.className = "message-buttons";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy";
+  copyBtn.onclick = () => navigator.clipboard.writeText(content);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.onclick = () => div.remove();
+
+  buttons.appendChild(copyBtn);
+  buttons.appendChild(deleteBtn);
+  div.appendChild(buttons);
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
