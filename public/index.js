@@ -29,6 +29,27 @@ window.onload = function () {
         console.log(err.stack);
         alert(err.stack);
       });
+
+    // // For google sites version
+    // fetch("https://script.google.com/macros/s/AKfycbxikHPARJFueF3BJiX9IlbyHx3xXDuiVi60I4DzdIESspjwFbpbtXxGbmkJySAGKVFfWA/exec?method=wake")
+    //   .then((r) => r.json())
+    //   .then((body) => {
+    //     if (body.status >= 400) {
+    //       alert(body.body)
+    //     }
+    //
+    //     if (body.body == "App is awake") {
+    //       submitBtn.disabled = false;
+    //       sendBtn.disabled = false;
+    //     } else {
+    //       alert(body.body);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.stack);
+    //     alert(err.stack);
+    //   });
+
   } catch (err) {
     console.log(err.stack);
     alert(err.stack);
@@ -65,6 +86,14 @@ async function fetchResponse() {
       },
       body: JSON.stringify(messageArray),
     });
+
+    // // For google sites version
+    // response = await fetch(
+    //   "https://script.google.com/macros/s/AKfycbxikHPARJFueF3BJiX9IlbyHx3xXDuiVi60I4DzdIESspjwFbpbtXxGbmkJySAGKVFfWA/exec"
+    //   + "?method=api%2Fdata"
+    //   + "&payload=" + encodeURIComponent(JSON.stringify(messageArray))
+    // );
+
   } catch (err) {
     console.log(err.stack);
     alert(err.stack);
@@ -76,7 +105,14 @@ async function fetchResponse() {
     return;
   }
 
+  // // For google sites version
+  // if (data.status >= 400) {
+  //   addErrorMessage(data.body, "assistant");
+  //   return;
+  // }
+
   let data = await response.json();
+  // addMessage(JSON.parse(data.body).content, "assistant");
   addMessage(data.content, "assistant");
 
   if (selfResponse) {
