@@ -264,9 +264,11 @@ function downloadChat() {
   const blob = new Blob([dataStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
+  const now = new Date();
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = "chat_export.json";
+  a.download = "chat_export_" + now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate() + "_" + now.getHours() + "-" + now.getMinutes() + "-" + now.getSeconds() + ".json";
 
   document.body.appendChild(a);
   a.click();
