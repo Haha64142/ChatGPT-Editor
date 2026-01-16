@@ -49,7 +49,6 @@ window.onload = function () {
     //     console.log(err.stack);
     //     alert(err.stack);
     //   });
-
   } catch (err) {
     console.log(err.stack);
     alert(err.stack);
@@ -93,7 +92,6 @@ async function fetchResponse() {
     //   + "?method=api%2Fdata"
     //   + "&payload=" + encodeURIComponent(JSON.stringify(messageArray))
     // );
-
   } catch (err) {
     console.log(err.stack);
     alert(err.stack);
@@ -146,7 +144,12 @@ function addMessageJSON(message) {
   }
 }
 
-function addMessage(content, role, index = undefined, addToMessageArray = true) {
+function addMessage(
+  content,
+  role,
+  index = undefined,
+  addToMessageArray = true,
+) {
   const div = document.createElement("div");
   div.className = "message " + role;
 
@@ -171,18 +174,24 @@ function addMessage(content, role, index = undefined, addToMessageArray = true) 
   copyBtn.textContent = "Copy";
   copyBtn.onclick = () => navigator.clipboard.writeText(content);
 
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.onclick = () => editMessage(messageIndex);
+
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
   deleteBtn.onclick = () => deleteMessage(messageIndex);
 
   buttons.appendChild(copyBtn);
+  buttons.appendChild(editBtn);
   buttons.appendChild(deleteBtn);
   div.appendChild(buttons);
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
-  if (addToMessageArray) messageArray.push({ role: role, content: content, index: messageIndex });
+  if (addToMessageArray)
+    messageArray.push({ role: role, content: content, index: messageIndex });
 }
 
 function addErrorMessage(content, role) {
@@ -224,6 +233,22 @@ function addErrorMessage(content, role) {
   messages.scrollTop = messages.scrollHeight;
 }
 
+function editMessage(index) {
+  const span = messages
+    .querySelector(`[data-index='${index}'`)
+    .getElementsByClassName("message-content")[0];
+  const textarea = document.createElement("textarea");
+  textarea.style.resize = "none";
+  textarea.style.fieldSizing = "content";
+
+  while (span.firstChild) {
+    textarea.append(span.firstChild);
+  }
+
+  span.appendChild(textarea);
+  textarea.focus();
+}
+
 function deleteMessage(index) {
   for (let i = 0; i < messageArray.length; ++i) {
     if (messageArray[i].index == index) {
@@ -246,17 +271,19 @@ function clearMessages() {
 }
 
 function importChat() {
-  new Response(importFile.files[0]).json()
-    .then((messages) => {
+  new Response(importFile.files[0]).json().then(
+    (messages) => {
       clearMessages();
       messageArray = messages;
       for (let i = 0; i < messageArray.length; ++i) {
         addMessageJSON(messageArray[i]);
       }
-    }, (err) => {
+    },
+    (err) => {
       alert("Invalid file uploaded");
       console.log("Invalid file uploaded");
-    })
+    },
+  );
 }
 
 function downloadChat() {
@@ -268,7 +295,20 @@ function downloadChat() {
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "chat_export_" + now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate() + "_" + now.getHours() + "-" + now.getMinutes() + "-" + now.getSeconds() + ".json";
+  a.download =
+    "chat_export_" +
+    now.getFullYear() +
+    "-" +
+    now.getMonth() +
+    "-" +
+    now.getDate() +
+    "_" +
+    now.getHours() +
+    "-" +
+    now.getMinutes() +
+    "-" +
+    now.getSeconds() +
+    ".json";
 
   document.body.appendChild(a);
   a.click();
